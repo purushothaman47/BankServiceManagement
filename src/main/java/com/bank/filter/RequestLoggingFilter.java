@@ -1,9 +1,15 @@
 package com.bank.filter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.*;
 import java.io.IOException;
 
 public class RequestLoggingFilter implements Filter {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(RequestLoggingFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -14,7 +20,7 @@ public class RequestLoggingFilter implements Filter {
                          FilterChain chain)
             throws IOException, ServletException {
 
-        System.out.println("Request received");
+        log.info("Incoming Request");
         chain.doFilter(request, response);
     }
 

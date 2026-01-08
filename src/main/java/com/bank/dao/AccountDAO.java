@@ -59,7 +59,4 @@ public class AccountDAO {
         }
     }
 
-    public void withdraw(int i, int i1) {
-
-    }
 }

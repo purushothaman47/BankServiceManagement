@@ -3,24 +3,29 @@ package com.bank.service;
 import com.bank.dao.UserDAO;
 import com.bank.model.User;
 import com.bank.util.PasswordUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AuthService {
 
+    private static final Logger log =
+            LoggerFactory.getLogger(AuthService.class);
+
     private final UserDAO userDAO = new UserDAO();
     public boolean register(String username, String password) {
-
+        log.info("Register request");
         if (userDAO.findByUsername(username) != null) {
             return false;
         }
 
         String hashed = PasswordUtil.hash(password);
         userDAO.save(username, hashed);
+        log.info("User registered successfully");
         return true;
     }
 
-
     public User login(String username, String rawPassword) {
-
+        log.info("Login attempt");
         User user = userDAO.findByUsername(username);
         if (user == null) return null;
 
@@ -29,7 +34,7 @@ public class AuthService {
         if (!hashedInput.equals(user.getPassword())) {
             return null;
         }
-
+        log.info("Login Successfully");
         return user;
     }
 }
