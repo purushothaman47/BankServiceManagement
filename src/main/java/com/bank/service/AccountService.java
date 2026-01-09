@@ -29,7 +29,7 @@ public class AccountService {
         LOG.info("Deposit request");
         Account acc = accountDAO.findById(accountId);
         if (acc == null)
-            throw new InvalidAccountException("Account not found");
+            throw new DataException("Account not found");
 
         double newBalance = acc.getBalance() + amount;
         accountDAO.updateBalance(accountId, newBalance);
@@ -40,7 +40,7 @@ public class AccountService {
     public void withdraw(int accountId, double amount) {
         LOG.info("Withdraw success");
         Account acc = accountDAO.findById(accountId);
-        if (acc == null) throw new InvalidAccountException("Account not found");
+        if (acc == null) throw new DataException("Account not found");
 
         if (acc.getBalance() < amount)
             throw new DataException("Insufficient Balance");
