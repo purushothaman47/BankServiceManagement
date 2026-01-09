@@ -21,17 +21,13 @@ public class DBConfig {
             log.info("Initializing Database Configuration");
             Properties props = new Properties();
 
-            InputStream is = DBConfig.class
-                    .getClassLoader()
+            InputStream is = Thread.currentThread().getContextClassLoader()
                     .getResourceAsStream("db.properties");
 
-//            if (is == null) {
-//
-//                throw new RuntimeException("");
-//            }
 
             props.load(is);
             log.info("Database properties loaded successfully");
+
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl(props.getProperty("db.url"));
 
@@ -41,9 +37,14 @@ public class DBConfig {
 
             config.setDriverClassName(props.getProperty("db.driver"));
 
+            config.setMaximumPoolSize(Integer.parseInt(props.getProperty("hikari.maximumPoolSize")));
+            config.setMaximumPoolSize(Integer.parseInt(props.getProperty("hikari.minimumIdle")));
+            config.setConnectionTimeout(Long.parseLong(props.getProperty("hikari.connectionTimeout")));
+            config.setIdleTimeout(Long.parseLong(props.getProperty("hikari.idleTimeout")));
+            config.setMaxLifetime(Long.parseLong(props.getProperty("hikari.maxLifetime")));
+
             dataSource = new HikariDataSource(config);
             log.info("HikariCP DataSource initialized successfully");
-
 
         } catch (Exception e) {
             log.error("Database Initialization Failed");
@@ -51,6 +52,9 @@ public class DBConfig {
         }
     }
 
+    private DBConfig(){
+
+    }
     public static DataSource getDataSource() {
         return dataSource;
     }

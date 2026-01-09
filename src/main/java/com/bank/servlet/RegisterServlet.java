@@ -2,8 +2,9 @@ package com.bank.servlet;
 
 import com.bank.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 public class RegisterServlet extends HttpServlet {

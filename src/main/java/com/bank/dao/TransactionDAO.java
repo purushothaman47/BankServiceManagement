@@ -9,7 +9,7 @@ public class TransactionDAO {
 
     public void saveTransaction(int accountId, String type, double amount) {
 
-        String sql = "INSERT INTO transactions(account_id, type, amount) VALUES (?, ?, ?)";
+        String sql = "insert into transactions(account_id, type, amount) values (?, ?, ?)";
 
         try (Connection con = DBConfig.getDataSource().getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {

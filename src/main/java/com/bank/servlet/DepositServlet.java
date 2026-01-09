@@ -23,6 +23,7 @@ public class DepositServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         log.info("Deposit API called");
+
         JsonNode json = mapper.readTree(req.getInputStream());
 
         int accountId = json.get("accountId").asInt();
@@ -31,8 +32,11 @@ public class DepositServlet extends HttpServlet {
         service.deposit(accountId, amount);
 
         resp.setStatus(HttpServletResponse.SC_OK);
+
         resp.setContentType("application/json");
+
         resp.getWriter().write("{\"message\":\"Deposit successful\"}");
+
         log.info("Deposit API success");
     }
 }

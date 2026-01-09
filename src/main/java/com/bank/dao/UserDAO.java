@@ -11,7 +11,7 @@ public class UserDAO {
 
     public User findByUsername(String username) {
 
-        String sql = "SELECT * FROM users WHERE username = ?";
+        String sql = "select * from users where username = ?";
 
         try (Connection con = DBConfig.getDataSource().getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -34,10 +34,9 @@ public class UserDAO {
         }
     }
 
-    // 🔹 SAVEEGISTER USER (ADD THIS METHOD)
     public void save(String username, String hashedPassword) {
 
-        String sql = "INSERT INTO users(username, password) VALUES (?, ?)";
+        String sql = "insert into users(username, password) values (?, ?)";
 
         try (Connection con = DBConfig.getDataSource().getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {

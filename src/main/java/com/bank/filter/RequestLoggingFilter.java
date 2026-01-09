@@ -2,8 +2,11 @@ package com.bank.filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import java.io.IOException;
 
 public class RequestLoggingFilter implements Filter {
@@ -11,9 +14,9 @@ public class RequestLoggingFilter implements Filter {
     private static final Logger log =
             LoggerFactory.getLogger(RequestLoggingFilter.class);
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
+//    @Override
+//    public void init(FilterConfig filterConfig) throws ServletException {
+//    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
@@ -21,10 +24,10 @@ public class RequestLoggingFilter implements Filter {
             throws IOException, ServletException {
 
         log.info("Incoming Request");
-        chain.doFilter(request, response);
+        chain.doFilter(request,response);
     }
 
-    @Override
-    public void destroy() {
-    }
+//    @Override
+//    public void destroy() {
+//    }
 }

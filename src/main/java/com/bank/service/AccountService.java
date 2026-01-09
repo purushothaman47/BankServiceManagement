@@ -2,8 +2,7 @@ package com.bank.service;
 
 import com.bank.dao.AccountDAO;
 import com.bank.dao.TransactionDAO;
-import com.bank.exception.InsufficientBalanceException;
-import com.bank.exception.InvalidAccountException;
+import com.bank.exception.DataException;
 import com.bank.model.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +43,7 @@ public class AccountService {
         if (acc == null) throw new InvalidAccountException("Account not found");
 
         if (acc.getBalance() < amount)
-            throw new InsufficientBalanceException("Insufficient Balance");
+            throw new DataException("Insufficient Balance");
 
         double newBalance = acc.getBalance() - amount;
         accountDAO.updateBalance(accountId, newBalance);

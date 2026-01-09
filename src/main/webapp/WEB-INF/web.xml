@@ -8,11 +8,7 @@
 
     <display-name>Bank</display-name>
 
-    <!-- ===================== -->
-    <!-- AUTH SERVLETS -->
-    <!-- ===================== -->
 
-    <!-- Register -->
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>com.bank.servlet.RegisterServlet</servlet-class>
@@ -23,7 +19,6 @@
         <url-pattern>/auth/register</url-pattern>
     </servlet-mapping>
 
-    <!-- Login -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.bank.servlet.LoginServlet</servlet-class>
@@ -33,10 +28,6 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/auth/login</url-pattern>
     </servlet-mapping>
-
-    <!-- ===================== -->
-    <!-- ACCOUNT SERVLETS -->
-    <!-- ===================== -->
 
     <servlet>
         <servlet-name>OpenAccountServlet</servlet-name>
@@ -68,11 +59,6 @@
         <url-pattern>/account/withdraw</url-pattern>
     </servlet-mapping>
 
-    <!-- ===================== -->
-    <!-- FILTERS -->
-    <!-- ===================== -->
-
-    <!-- Logging Filter (SAFE) -->
     <filter>
         <filter-name>RequestLoggingFilter</filter-name>
         <filter-class>com.bank.filter.RequestLoggingFilter</filter-class>
@@ -83,7 +69,6 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- Auth Filter (ONLY for account APIs) -->
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>com.bank.filter.AuthFilter</filter-class>
