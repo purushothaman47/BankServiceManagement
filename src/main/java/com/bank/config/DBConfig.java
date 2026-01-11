@@ -1,5 +1,6 @@
 package com.bank.config;
 
+import com.bank.exception.DataException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
@@ -9,52 +10,58 @@ import javax.sql.DataSource;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class DBConfig {
+public final class DBConfig {
 
-    private static final Logger log =
+    private static final Logger LOG =
             LoggerFactory.getLogger(DBConfig.class);
 
     private static final HikariDataSource dataSource;
 
+    private DBConfig() {
+    }
+
     static {
         try {
-            log.info("Initializing Database Configuration");
+            LOG.info("Initializing Database Configuration");
+
             Properties props = new Properties();
+            try (InputStream in =
+                         Thread.currentThread()
+                                 .getContextClassLoader()
+                                 .getResourceAsStream("db.properties")) {
 
-            InputStream is = Thread.currentThread().getContextClassLoader()
-                    .getResourceAsStream("db.properties");
-
-
-            props.load(is);
-            log.info("Database properties loaded successfully");
+                if (in == null) {
+                    throw new DataException("db.properties not found in classpath");
+                }
+                props.load(in);
+            }
 
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl(props.getProperty("db.url"));
-
             config.setUsername(props.getProperty("db.username"));
-
             config.setPassword(props.getProperty("db.password"));
-
             config.setDriverClassName(props.getProperty("db.driver"));
 
-            config.setMaximumPoolSize(Integer.parseInt(props.getProperty("hikari.maximumPoolSize")));
-            config.setMaximumPoolSize(Integer.parseInt(props.getProperty("hikari.minimumIdle")));
-            config.setConnectionTimeout(Long.parseLong(props.getProperty("hikari.connectionTimeout")));
-            config.setIdleTimeout(Long.parseLong(props.getProperty("hikari.idleTimeout")));
-            config.setMaxLifetime(Long.parseLong(props.getProperty("hikari.maxLifetime")));
+            config.setMaximumPoolSize(
+                    Integer.parseInt(props.getProperty("hikari.maximumPoolSize", "10")));
+            config.setMinimumIdle(
+                    Integer.parseInt(props.getProperty("hikari.minimumIdle", "2")));
+            config.setConnectionTimeout(
+                    Long.parseLong(props.getProperty("hikari.connectionTimeout", "30000")));
+            config.setIdleTimeout(
+                    Long.parseLong(props.getProperty("hikari.idleTimeout", "600000")));
+            config.setMaxLifetime(
+                    Long.parseLong(props.getProperty("hikari.maxLifetime", "1800000")));
 
             dataSource = new HikariDataSource(config);
-            log.info("HikariCP DataSource initialized successfully");
+
+            LOG.info("HikariCP DataSource initialized successfully");
 
         } catch (Exception e) {
-            log.error("Database Initialization Failed");
-            throw new RuntimeException("DB Initialization Failed", e);
+            throw new DataException("Failed to initialize DB", e);
         }
     }
 
-    private DBConfig(){
-
-    }
     public static DataSource getDataSource() {
         return dataSource;
     }

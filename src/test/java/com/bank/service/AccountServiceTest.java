@@ -71,7 +71,7 @@ class AccountServiceTest {
 
         when(accountDAO.findById(1)).thenReturn(null);
 
-        assertThrows(InvalidAccountException.class, () ->
+        assertThrows(DataException.class, () ->
                 service.deposit(1, 1000)
         );
 
@@ -120,7 +120,7 @@ class AccountServiceTest {
 
         when(accountDAO.findById(1)).thenReturn(null);
 
-        assertThrows(InvalidAccountException.class, () ->
+        assertThrows(DataException.class, () ->
                 service.withdraw(1, 1000)
         );
     }

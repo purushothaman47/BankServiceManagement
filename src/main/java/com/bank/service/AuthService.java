@@ -8,33 +8,40 @@ import org.slf4j.LoggerFactory;
 
 public class AuthService {
 
-    private static final Logger log =
+    private static final Logger LOG =
             LoggerFactory.getLogger(AuthService.class);
 
     private final UserDAO userDAO = new UserDAO();
     public boolean register(String username, String password) {
-        log.info("Register request");
+        LOG.info("Register request");
+
         if (userDAO.findByUsername(username) != null) {
             return false;
         }
 
         String hashed = PasswordUtil.hash(password);
         userDAO.save(username, hashed);
-        log.info("User registered successfully");
+
+        LOG.info("User registered successfully");
+
         return true;
     }
 
     public User login(String username, String rawPassword) {
-        log.info("Login attempt");
+        LOG.info("Login attempt");
+
         User user = userDAO.findByUsername(username);
-        if (user == null) return null;
+        if (user == null) {
+            return null;
+        }
 
         String hashedInput = PasswordUtil.hash(rawPassword);
 
         if (!hashedInput.equals(user.getPassword())) {
             return null;
         }
-        log.info("Login Successfully");
+        LOG.info("Login Successfully");
+
         return user;
     }
 }

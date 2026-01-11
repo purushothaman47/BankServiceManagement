@@ -16,11 +16,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AuthFilter implements Filter {
-    private static final Logger log =
+    private static final Logger LOG =
             LoggerFactory.getLogger(AuthFilter.class);
-//    @Override
-//    public void init(FilterConfig filterConfig) throws ServletException {
-//    }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res,
@@ -38,11 +35,8 @@ public class AuthFilter implements Filter {
             response.getWriter().write("{\"msg\":\"Unauthorized\"}");
             return;
         }
-        log.info("Authorized user access");
+        LOG.info("Authorized user access");
         chain.doFilter(req, res);
     }
 
-//    @Override
-//    public void destroy() {
-//    }
 }

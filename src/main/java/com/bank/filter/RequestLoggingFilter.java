@@ -11,23 +11,17 @@ import java.io.IOException;
 
 public class RequestLoggingFilter implements Filter {
 
-    private static final Logger log =
+    private static final Logger LOG =
             LoggerFactory.getLogger(RequestLoggingFilter.class);
 
-//    @Override
-//    public void init(FilterConfig filterConfig) throws ServletException {
-//    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain)
             throws IOException, ServletException {
 
-        log.info("Incoming Request");
+        LOG.info("Incoming Request");
         chain.doFilter(request,response);
     }
 
-//    @Override
-//    public void destroy() {
-//    }
 }

@@ -47,13 +47,13 @@ class RegisterServletTest {
     void register_success() throws Exception {
 
         String json = """
-                {"username":"machi","password":"secret"}
+                {"username":"Purushothaman","password":"1234"}
                 """;
 
         when(request.getInputStream())
                 .thenReturn(mockInputStream(json));
 
-        when(authService.register("machi", "secret"))
+        when(authService.register("Purushothaman", "1234"))
                 .thenReturn(true);
 
         servlet.doPost(request, response);
@@ -67,13 +67,13 @@ class RegisterServletTest {
     void register_usernameAlreadyExists() throws Exception {
 
         String json = """
-                {"username":"machi","password":"secret"}
+                {"username":"Purushothaman","password":"1234"}
                 """;
 
         when(request.getInputStream())
                 .thenReturn(mockInputStream(json));
 
-        when(authService.register("machi", "secret"))
+        when(authService.register("Purushothaman", "1234"))
                 .thenReturn(false);
 
         servlet.doPost(request, response);

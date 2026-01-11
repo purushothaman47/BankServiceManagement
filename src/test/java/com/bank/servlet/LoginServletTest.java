@@ -48,16 +48,16 @@ class LoginServletTest {
     void login_success() throws Exception {
 
         String json = """
-                {"username":"machi","password":"secret"}
+                {"username":"Purushothaman","password":"1234"}
                 """;
 
         when(request.getInputStream())
                 .thenReturn(mockInputStream(json));
 
         User user = new User();
-        user.setUsername("machi");
+        user.setUsername("Purushothaman");
 
-        when(authService.login("machi", "secret"))
+        when(authService.login("Purushothaman", "1234"))
                 .thenReturn(user);
 
         when(request.getSession(true))
@@ -77,13 +77,13 @@ class LoginServletTest {
     void login_invalidCredentials() throws Exception {
 
         String json = """
-                {"username":"bad","password":"wrong"}
+                {"username":"1234","password":"1234"}
                 """;
 
         when(request.getInputStream())
                 .thenReturn(mockInputStream(json));
 
-        when(authService.login("bad", "wrong"))
+        when(authService.login("1234", "1234"))
                 .thenReturn(null);
 
         servlet.doPost(request, response);

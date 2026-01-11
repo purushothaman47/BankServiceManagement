@@ -1,72 +1,64 @@
 package com.bank.dao;
 
 import com.bank.model.User;
+import com.bank.exception.DataException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 class UserDAOTest {
 
     private UserDAO userDAO;
 
     @BeforeEach
     void setup() throws Exception {
-
         userDAO = new UserDAO();
 
         try (Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/masterdb",
                 "root",
-                "1234@Dpp")) {
+                "1234@Dpp#")) {
 
             Statement stmt = con.createStatement();
-            stmt.execute("DELETE FROM users");
+            stmt.execute("TRUNCATE TABLE users");
         }
     }
 
-
     @Test
-    void testSaveUser() {
-
-        userDAO.save("machi", "hashed_password");
+    void shouldSaveAndFindUser() {
+        userDAO.save("machi", "hashed");
 
         User user = userDAO.findByUsername("machi");
 
         assertNotNull(user);
         assertEquals("machi", user.getUsername());
-        assertEquals("hashed_password", user.getPassword());
+        assertEquals("hashed", user.getPassword());
     }
 
     @Test
-    void testFindByUsername() {
-
-        userDAO.save("ravi", "pwd123");
-
-        User user = userDAO.findByUsername("ravi");
-
-        assertNotNull(user);
-        assertEquals("ravi", user.getUsername());
-    }
-
-
-    @Test
-    void testFindByUsername_NotFound() {
-
+    void shouldReturnNullWhenUserNotFound() {
         User user = userDAO.findByUsername("unknown");
-
         assertNull(user);
     }
 
     @Test
-    void testSaveDuplicateUsername() {
+    void shouldFailForDuplicateUsername() {
+        userDAO.save("dup", "p1");
 
-        userDAO.save("dupuser", "pwd1");
-
-        RuntimeException ex = assertThrows(RuntimeException.class, () ->
-                userDAO.save("dupuser", "pwd2")
+        assertThrows(DataException.class, () ->
+                userDAO.save("dup", "p2")
         );
-        assertTrue(ex.getMessage().contains("Error saving user"));
+    }
+
+    @Test
+    void shouldFailWhenUsernameIsNull() {
+        assertThrows(DataException.class, () ->
+                userDAO.save(null, "pwd")
+        );
     }
 }

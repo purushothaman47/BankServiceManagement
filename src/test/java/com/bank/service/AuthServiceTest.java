@@ -29,28 +29,28 @@ class AuthServiceTest {
     @Test
     void registerSuccess() {
 
-        when(userDAO.findByUsername("machi"))
+        when(userDAO.findByUsername("Purushothaman"))
                 .thenReturn(null);
 
         boolean result =
-                authService.register("machi", "secret");
+                authService.register("Purushothaman", "1234");
 
         assertTrue(result);
 
         verify(userDAO).save(
-                eq("machi"),
-                eq(PasswordUtil.hash("secret"))
+                eq("Purushothaman"),
+                eq(PasswordUtil.hash("1234"))
         );
     }
 
     @Test
     void registerUserAlreadyExists() {
 
-        when(userDAO.findByUsername("machi"))
+        when(userDAO.findByUsername("Purushothaman"))
                 .thenReturn(new User());
 
         boolean result =
-                authService.register("machi", "secret");
+                authService.register("Purushothaman", "1234");
 
         assertFalse(result);
 
@@ -62,31 +62,31 @@ class AuthServiceTest {
     void loginSuccess() {
 
         User user = new User();
-        user.setUsername("machi");
-        user.setPassword(PasswordUtil.hash("secret"));
+        user.setUsername("Purushothaman");
+        user.setPassword(PasswordUtil.hash("1234"));
 
-        when(userDAO.findByUsername("machi"))
+        when(userDAO.findByUsername("Purushothaman"))
                 .thenReturn(user);
 
         User result =
-                authService.login("machi", "secret");
+                authService.login("Purushothaman", "1234");
 
         assertNotNull(result);
-        assertEquals("machi", result.getUsername());
+        assertEquals("Purushothaman", result.getUsername());
     }
 
     @Test
     void loginWrongPassword() {
 
         User user = new User();
-        user.setUsername("machi");
-        user.setPassword(PasswordUtil.hash("correct"));
+        user.setUsername("Purushothaman");
+        user.setPassword(PasswordUtil.hash("4321"));
 
-        when(userDAO.findByUsername("machi"))
+        when(userDAO.findByUsername("Purushothaman"))
                 .thenReturn(user);
 
         User result =
-                authService.login("machi", "wrong");
+                authService.login("Purushothaman", "1234");
 
         assertNull(result);
     }

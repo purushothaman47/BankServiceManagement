@@ -1,5 +1,6 @@
 package com.bank.dao;
 
+import com.bank.exception.DataException;
 import com.bank.model.Account;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,68 +17,58 @@ class AccountDAOTest {
 
     @BeforeEach
     void setup() throws Exception {
-
         accountDAO = new AccountDAO();
 
         try (Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/masterdb",
                 "root",
-                "1234@Dpp")) {
+                "1234@Dpp#")) {
 
             Statement stmt = con.createStatement();
             stmt.execute("TRUNCATE TABLE accounts");
         }
     }
-
     @Test
-    void testCreateAccount() {
-
+    void shouldCreateAccount() {
         Account acc = new Account();
-        acc.setName("Ravi");
+        acc.setName("Puru");
         acc.setBalance(5000);
 
         accountDAO.createAccount(acc);
 
         Account saved = accountDAO.findById(1);
-
         assertNotNull(saved);
-        assertEquals("Ravi", saved.getName());
+        assertEquals("Puru", saved.getName());
         assertEquals(5000, saved.getBalance());
     }
 
     @Test
-    void testFindById() {
-
+    void shouldUpdateBalance() {
         Account acc = new Account();
-        acc.setName("Kumar");
-        acc.setBalance(3000);
-        accountDAO.createAccount(acc);
-
-        Account found = accountDAO.findById(1);
-
-        assertNotNull(found);
-        assertEquals("Kumar", found.getName());
-    }
-
-    @Test
-    void testUpdateBalance() {
-
-        Account acc = new Account();
-        acc.setName("Suresh");
-        acc.setBalance(2000);
+        acc.setName("Puru");
+        acc.setBalance(1000);
         accountDAO.createAccount(acc);
 
         accountDAO.updateBalance(1, 9000);
 
         Account updated = accountDAO.findById(1);
-
-        assertNotNull(updated);
         assertEquals(9000, updated.getBalance());
     }
 
     @Test
-    void testFindById_invalid() {
+    void shouldReturnNullForInvalidId() {
         Account acc = accountDAO.findById(99);
         assertNull(acc);
+    }
+
+    @Test
+    void shouldFailWhenNameIsNull() {
+        Account acc = new Account();
+        acc.setName(null);
+        acc.setBalance(100);
+
+        assertThrows(DataException.class, () ->
+                accountDAO.createAccount(acc)
+        );
     }
 }
