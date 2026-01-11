@@ -38,7 +38,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void openAccountSuccess() {
+    void testOpenAccountSuccess() {
 
         assertDoesNotThrow(() ->
                 service.openAccount("Ravi", 5000)
@@ -50,7 +50,7 @@ class AccountServiceTest {
 
 
     @Test
-    void depositSuccess() {
+    void testDepositSuccess() {
 
         Account acc = new Account();
         acc.setId(1);
@@ -67,7 +67,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void depositInvalidAccount() {
+    void testDepositInvalidAccount() {
 
         when(accountDAO.findById(1)).thenReturn(null);
 
@@ -80,7 +80,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void withdraw_success() {
+    void testWithdrawSuccess() {
 
         Account acc = new Account();
         acc.setId(1);
@@ -97,7 +97,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void withdraw_insufficientBalance() {
+    void testWithdrawInsufficientBalance() {
 
         Account acc = new Account();
         acc.setId(1);
@@ -116,7 +116,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void withdraw_invalidAccount() {
+    void testWithdrawInvalidAccount() {
 
         when(accountDAO.findById(1)).thenReturn(null);
 

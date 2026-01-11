@@ -27,7 +27,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void registerSuccess() {
+    void testRegisterSuccess() {
 
         when(userDAO.findByUsername("Purushothaman"))
                 .thenReturn(null);
@@ -44,7 +44,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void registerUserAlreadyExists() {
+    void testRegisterUserAlreadyExists() {
 
         when(userDAO.findByUsername("Purushothaman"))
                 .thenReturn(new User());
@@ -59,7 +59,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void loginSuccess() {
+    void testLoginSuccess() {
 
         User user = new User();
         user.setUsername("Purushothaman");
@@ -76,7 +76,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void loginWrongPassword() {
+    void testLoginWrongPassword() {
 
         User user = new User();
         user.setUsername("Purushothaman");
@@ -92,7 +92,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void loginUserNotFound() {
+    void testLoginUserNotFound() {
 
         when(userDAO.findByUsername("unknown"))
                 .thenReturn(null);

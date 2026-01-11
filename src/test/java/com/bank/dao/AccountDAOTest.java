@@ -28,8 +28,9 @@ class AccountDAOTest {
             stmt.execute("TRUNCATE TABLE accounts");
         }
     }
+
     @Test
-    void shouldCreateAccount() {
+    void testCreateAccount() {
         Account acc = new Account();
         acc.setName("Puru");
         acc.setBalance(5000);
@@ -37,13 +38,13 @@ class AccountDAOTest {
         accountDAO.createAccount(acc);
 
         Account saved = accountDAO.findById(1);
-        assertNotNull(saved);
-        assertEquals("Puru", saved.getName());
-        assertEquals(5000, saved.getBalance());
+        assertNotNull(saved, "Saved account should not be null");
+        assertEquals("Puru", saved.getName(), "Account name should match");
+        assertEquals(5000, saved.getBalance(), "Account balance should match");
     }
 
     @Test
-    void shouldUpdateBalance() {
+    void testUpdateBalance() {
         Account acc = new Account();
         acc.setName("Puru");
         acc.setBalance(1000);
@@ -52,23 +53,26 @@ class AccountDAOTest {
         accountDAO.updateBalance(1, 9000);
 
         Account updated = accountDAO.findById(1);
-        assertEquals(9000, updated.getBalance());
+        assertNotNull(updated, "Updated account should not be null");
+        assertEquals(9000, updated.getBalance(), "Balance should be updated");
     }
 
     @Test
-    void shouldReturnNullForInvalidId() {
+    void testFindByIdInvalid() {
         Account acc = accountDAO.findById(99);
-        assertNull(acc);
+        assertNull(acc, "Account should be null for invalid id");
     }
 
     @Test
-    void shouldFailWhenNameIsNull() {
+    void testCreateAccountWithNullName() {
         Account acc = new Account();
         acc.setName(null);
         acc.setBalance(100);
 
-        assertThrows(DataException.class, () ->
-                accountDAO.createAccount(acc)
+        assertThrows(
+                DataException.class,
+                () -> accountDAO.createAccount(acc),
+                "Creating account with null name should throw DataException"
         );
     }
 }

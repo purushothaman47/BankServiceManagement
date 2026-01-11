@@ -8,7 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TransactionDAOTest {
 
@@ -29,30 +30,34 @@ class TransactionDAOTest {
     }
 
     @Test
-    void shouldSaveTransaction() {
+    void testSaveDepositTransaction() {
         assertDoesNotThrow(() ->
                 transactionDAO.saveTransaction(1, "DEPOSIT", 1000)
         );
     }
 
     @Test
-    void shouldSaveWithdrawTransaction() {
+    void testSaveWithdrawTransaction() {
         assertDoesNotThrow(() ->
-                transactionDAO.saveTransaction(1, "WITHDRAW", 5060)
+                transactionDAO.saveTransaction(1, "WITHDRAW", 500)
         );
     }
 
     @Test
-    void shouldFailWhenTypeIsNull() {
-        assertThrows(DataException.class, () ->
-                transactionDAO.saveTransaction(1, null, 100)
+    void testFailWhenTypeIsNull() {
+        assertThrows(
+                DataException.class,
+                () -> transactionDAO.saveTransaction(1, null, 100),
+                "Null type should throw DataException"
         );
     }
 
     @Test
-    void shouldFailWhenAmountIsNegative() {
-        assertThrows(DataException.class, () ->
-                transactionDAO.saveTransaction(1, "DEPOSIT", -10)
+    void testFailWhenAmountIsNegative() {
+        assertThrows(
+                DataException.class,
+                () -> transactionDAO.saveTransaction(1, "DEPOSIT", -10),
+                "Negative amount should throw DataException"
         );
     }
 }

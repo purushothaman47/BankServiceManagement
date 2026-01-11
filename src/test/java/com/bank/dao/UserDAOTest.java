@@ -11,6 +11,7 @@ import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class UserDAOTest {
 
     private UserDAO userDAO;
@@ -30,35 +31,39 @@ class UserDAOTest {
     }
 
     @Test
-    void shouldSaveAndFindUser() {
+    void testSaveAndFindUser() {
         userDAO.save("machi", "hashed");
 
         User user = userDAO.findByUsername("machi");
 
-        assertNotNull(user);
-        assertEquals("machi", user.getUsername());
-        assertEquals("hashed", user.getPassword());
+        assertNotNull(user, "User should not be null after save");
+        assertEquals("machi", user.getUsername(), "Username should match");
+        assertEquals("hashed", user.getPassword(), "Password should match");
     }
 
     @Test
-    void shouldReturnNullWhenUserNotFound() {
+    void testReturnNullWhenUserNotFound() {
         User user = userDAO.findByUsername("unknown");
-        assertNull(user);
+        assertNull(user, "Unknown user should return null");
     }
 
     @Test
-    void shouldFailForDuplicateUsername() {
+    void testFailForDuplicateUsername() {
         userDAO.save("dup", "p1");
 
-        assertThrows(DataException.class, () ->
-                userDAO.save("dup", "p2")
+        assertThrows(
+                DataException.class,
+                () -> userDAO.save("dup", "p2"),
+                "Duplicate username should throw DataException"
         );
     }
 
     @Test
-    void shouldFailWhenUsernameIsNull() {
-        assertThrows(DataException.class, () ->
-                userDAO.save(null, "pwd")
+    void testFailWhenUsernameIsNull() {
+        assertThrows(
+                DataException.class,
+                () -> userDAO.save(null, "pwd"),
+                "Null username should throw DataException"
         );
     }
 }
