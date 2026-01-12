@@ -45,7 +45,7 @@ class LoginServletTest {
 
 
     @Test
-    void login_success() throws Exception {
+    void testLoginSuccess() throws Exception {
 
         String json = """
                 {"username":"Purushothaman","password":"1234"}
@@ -74,7 +74,7 @@ class LoginServletTest {
 
 
     @Test
-    void login_invalidCredentials() throws Exception {
+    void testLoginInvalidCredentials() throws Exception {
 
         String json = """
                 {"username":"1234","password":"1234"}
@@ -93,7 +93,6 @@ class LoginServletTest {
         assertTrue(responseWriter.toString()
                 .contains("Invalid Credentials"));
     }
-
 
     private ServletInputStream mockInputStream(String body) {
         ByteArrayInputStream bis =

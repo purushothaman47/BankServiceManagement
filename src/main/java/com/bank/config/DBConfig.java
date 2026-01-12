@@ -28,7 +28,7 @@ public final class DBConfig {
             try (InputStream in =
                          Thread.currentThread()
                                  .getContextClassLoader()
-                                 .getResourceAsStream("db.properties")) {
+                                 .getResourceAsStream("liquibase.properties")) {
 
                 if (in == null) {
                     throw new DataException("db.properties not found in classpath");
@@ -37,10 +37,10 @@ public final class DBConfig {
             }
 
             HikariConfig config = new HikariConfig();
-            config.setJdbcUrl(props.getProperty("db.url"));
-            config.setUsername(props.getProperty("db.username"));
-            config.setPassword(props.getProperty("db.password"));
-            config.setDriverClassName(props.getProperty("db.driver"));
+            config.setJdbcUrl(props.getProperty("url"));
+            config.setUsername(props.getProperty("username"));
+            config.setPassword(props.getProperty("password"));
+            config.setDriverClassName(props.getProperty("driver"));
 
             config.setMaximumPoolSize(
                     Integer.parseInt(props.getProperty("hikari.maximumPoolSize", "10")));
@@ -48,10 +48,6 @@ public final class DBConfig {
                     Integer.parseInt(props.getProperty("hikari.minimumIdle", "2")));
             config.setConnectionTimeout(
                     Long.parseLong(props.getProperty("hikari.connectionTimeout", "30000")));
-            config.setIdleTimeout(
-                    Long.parseLong(props.getProperty("hikari.idleTimeout", "600000")));
-            config.setMaxLifetime(
-                    Long.parseLong(props.getProperty("hikari.maxLifetime", "1800000")));
 
             dataSource = new HikariDataSource(config);
 

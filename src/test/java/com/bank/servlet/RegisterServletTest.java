@@ -44,7 +44,7 @@ class RegisterServletTest {
 
 
     @Test
-    void register_success() throws Exception {
+    void testRegisterSuccess() throws Exception {
 
         String json = """
                 {"username":"Purushothaman","password":"1234"}
@@ -62,9 +62,8 @@ class RegisterServletTest {
                 .contains("Registered successfully"));
     }
 
-
     @Test
-    void register_usernameAlreadyExists() throws Exception {
+    void testRegisterUsernameAlreadyExists() throws Exception {
 
         String json = """
                 {"username":"Purushothaman","password":"1234"}
