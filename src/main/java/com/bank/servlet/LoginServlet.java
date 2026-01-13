@@ -2,6 +2,7 @@ package com.bank.servlet;
 
 import com.bank.model.User;
 import com.bank.service.AuthService;
+import com.bank.util.SessionManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,8 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
 
-            req.getSession(true).setAttribute("user", user);
+            SessionManager.createUserSession(req, user);
+
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().write("{\"message\":\"Login Successful\"}");
 

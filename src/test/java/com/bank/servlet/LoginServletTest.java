@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class LoginServletTest {
+
     private LoginServlet servlet;
     private AuthService authService;
 
@@ -43,7 +44,6 @@ class LoginServletTest {
                 .thenReturn(new PrintWriter(responseWriter));
     }
 
-
     @Test
     void testLoginSuccess() throws Exception {
 
@@ -66,12 +66,13 @@ class LoginServletTest {
         servlet.doPost(request, response);
 
         verify(response).setContentType("application/json");
+
+        verify(request).getSession(true);
         verify(session).setAttribute("user", user);
 
         assertTrue(responseWriter.toString()
                 .contains("Login Successful"));
     }
-
 
     @Test
     void testLoginInvalidCredentials() throws Exception {

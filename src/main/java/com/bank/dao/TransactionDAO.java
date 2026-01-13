@@ -17,7 +17,6 @@ public class TransactionDAO {
 
     public void saveTransaction(int accountId, String type, double amount) {
 
-        // ---- Input validation (for negative test cases & Sonar) ----
         if (accountId <= 0) {
             throw new DataException("Invalid account id");
         }
