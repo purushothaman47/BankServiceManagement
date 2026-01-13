@@ -43,15 +43,17 @@ public final class DBConfig {
             config.setDriverClassName(props.getProperty("driver"));
 
             config.setMaximumPoolSize(
-                    Integer.parseInt(props.getProperty("hikari.maximumPoolSize", "10")));
+                    Integer.parseInt(props.getProperty("hikari.maximumPoolSize")));
             config.setMinimumIdle(
-                    Integer.parseInt(props.getProperty("hikari.minimumIdle", "2")));
+                    Integer.parseInt(props.getProperty("hikari.minimumIdle")));
             config.setConnectionTimeout(
-                    Long.parseLong(props.getProperty("hikari.connectionTimeout", "30000")));
+                    Long.parseLong(props.getProperty("hikari.connectionTimeout")));
 
             dataSource = new HikariDataSource(config);
 
             LOG.info("HikariCP DataSource initialized successfully");
+
+
 
         } catch (Exception e) {
             throw new DataException("Failed to initialize DB", e);
