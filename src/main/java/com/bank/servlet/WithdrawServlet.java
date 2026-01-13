@@ -37,10 +37,12 @@ public class WithdrawServlet extends HttpServlet {
             int accountId = json.get("accountId").asInt();
             double amount = json.get("amount").asDouble();
 
-            service.withdraw(accountId, amount);
+            double newBalance = service.withdraw(accountId, amount);
 
             resp.setStatus(HttpServletResponse.SC_OK);
-            resp.getWriter().write("{\"message\":\"Withdraw successful\"}");
+            resp.getWriter().write(
+                    "{\"message\":\"Withdraw successful\",\"balance\":" + newBalance + "}"
+            );
 
         } catch (DataException e) {
             LOG.warn("Business validation failed", e);

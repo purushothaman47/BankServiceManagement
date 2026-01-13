@@ -19,7 +19,6 @@ public final class DBConfig {
 
     private DBConfig() {
     }
-
     static {
         try {
             LOG.info("Initializing Database Configuration");

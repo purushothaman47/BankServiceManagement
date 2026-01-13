@@ -19,6 +19,13 @@ public class AccountService {
 
         LOG.info("Opening account");
 
+        if (name == null || name.isBlank()) {
+            throw new DataException("Name is required");
+        }
+        if (balance < 0) {
+            throw new DataException("Initial balance cannot be negative");
+        }
+
         Account acc = new Account();
         acc.setName(name);
         acc.setBalance(balance);
@@ -27,10 +34,13 @@ public class AccountService {
         LOG.info("Account opened successfully");
     }
 
-    public void deposit(int accountId, double amount) {
+    public double deposit(int accountId, double amount) {
 
         LOG.info("Deposit request");
 
+        if (amount <= 0) {
+            throw new DataException("Amount must be greater than zero");
+        }
         Account acc = accountDAO.findById(accountId);
         if (acc == null) {
             throw new DataException("Account not found");
@@ -40,12 +50,17 @@ public class AccountService {
         accountDAO.updateBalance(accountId, newBalance);
         transactionDAO.saveTransaction(accountId, "DEPOSIT", amount);
 
-        LOG.info("Deposit success");
+        LOG.info("Deposit success. New balance: {}", newBalance);
+        return newBalance;
     }
 
-    public void withdraw(int accountId, double amount) {
+    public double withdraw(int accountId, double amount) {
 
         LOG.info("Withdraw request");
+
+        if (amount <= 0) {
+            throw new DataException("Amount must be greater than zero");
+        }
 
         Account acc = accountDAO.findById(accountId);
         if (acc == null) {
@@ -57,10 +72,10 @@ public class AccountService {
         }
 
         double newBalance = acc.getBalance() - amount;
-
         accountDAO.updateBalance(accountId, newBalance);
         transactionDAO.saveTransaction(accountId, "WITHDRAW", amount);
 
         LOG.info("Withdraw success");
+        return newBalance;
     }
 }

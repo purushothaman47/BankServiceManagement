@@ -121,7 +121,7 @@
                     <changeLogFile>src/main/resources/change-log/change-log-master.xml</changeLogFile>
                     <url>jdbc:mysql://localhost:3306/masterdb?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true</url>
                     <username>root</username>
-                    <password>1234@Dpp</password>
+                    <password>1234@Dpp#</password>
                     <driver>com.mysql.cj.jdbc.Driver</driver>
                 </configuration>
             </plugin>

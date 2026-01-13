@@ -37,12 +37,14 @@ public class DepositServlet extends HttpServlet {
             int accountId = json.get("accountId").asInt();
             double amount = json.get("amount").asDouble();
 
-            service.deposit(accountId, amount);
+            double newBalance = service.deposit(accountId, amount);
 
             resp.setStatus(HttpServletResponse.SC_OK);
-            resp.getWriter().write("{\"message\":\"Deposit successful\"}");
+            resp.getWriter().write(
+                    "{\"message\":\"Deposit successful\",\"balance\":" + newBalance + "}"
+            );
 
-            LOG.info("Deposit API success");
+            LOG.info("Deposit API success ");
 
         } catch (IOException e) {
             LOG.error("Invalid request payload", e);

@@ -6,7 +6,7 @@ import com.bank.exception.DataException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-public class TransactionDAO {
+public class    TransactionDAO {
 
     static final int INSERT_ACCOUNT_ID = 1;
     static final int INSERT_TYPE = 2;

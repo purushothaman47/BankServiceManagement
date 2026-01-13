@@ -18,7 +18,6 @@ public class AuthService {
         if (userDAO.findByUsername(username) != null) {
             return false;
         }
-
         String hashed = PasswordUtil.hash(password);
         userDAO.save(username, hashed);
 
@@ -26,7 +25,6 @@ public class AuthService {
 
         return true;
     }
-
     public User login(String username, String rawPassword) {
         LOG.info("Login attempt");
 

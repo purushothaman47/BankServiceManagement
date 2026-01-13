@@ -11,7 +11,6 @@ import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 class UserDAOTest {
 
     private UserDAO userDAO;
@@ -23,7 +22,7 @@ class UserDAOTest {
         try (Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/masterdb",
                 "root",
-                "1234@Dpp")) {
+                "1234@Dpp#")) {
 
             Statement stmt = con.createStatement();
             stmt.execute("TRUNCATE TABLE users");
